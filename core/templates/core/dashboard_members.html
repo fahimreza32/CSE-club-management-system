@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Member Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-7xl mx-auto text-center mb-4" >
+    <!-- Header -->
+    <h2 class="text-2xl font-bold mb-4">Member Dashboard</h2>
+    <!-- Add Member Button -->
+    <a href="{% url 'add_member' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 inline-block">
+        + Add Member</a>
+    <!-- Members Table Card -->
+    <div class="bg-white shadow rounded p-4 overflow-x-auto">
+        <table class="table-auto w-full border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border px-2 py-2 ">Name</th>
+                    <th class="border px-2 py-2 ">Email</th>
+                    <th class="border px-2 py-2 ">Phone</th>
+                    <th class="border px-2 py-2 ">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-2 py-1 text-left">{{ member.name }}</td>
+                    <td class="border px-2 py-1 text-left">{{ member.email }}</td>
+                    <td class="border px-2 py-1 text-left">{{ member.phone }}</td>
+                    <td class="border px-2 py-1 space-x-2">
+                        <a href="{% url 'edit_member' member.id %}" class="text-blue-500 hover:underline">Edit</a>
+                        <a href="{% url 'delete_member' member.id %}" class="text-red-500 hover:underline">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td class="border px-2 py-1 text-center" colspan="4">No members</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-6">
+        <a href="{% url 'main_dashboard' %}" class="text-blue-600 hover:underline font-medium">
+            ← Back to Dashboard</a>
+    </div>
+    </div>
+</div>
+</body>
+<!-- Footer -->
+<footer class="bg-white-800 text-black py-4 mt-8">
+    <div class="max-w-6xl mx-auto text-center">
+        <p class="text-sm">
+            &copy; 2026 My Club Management. All rights reserved.</p>
+        <p class="text-xs mt-1">
+            Designed with ❤️ using Django & TailwindCSS</p>
+    </div>
+</footer>
+</html>

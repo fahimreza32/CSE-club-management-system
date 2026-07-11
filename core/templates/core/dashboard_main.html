@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-6">CSE Club Management Dashboard</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="card">Members <br><b>{{ total_members }}</b></div>
+        <div class="card">Membership <br><b>৳ {{ membership_income }}</b></div>
+        <div class="card">Events <br><b>৳ {{ event_income }}</b></div>
+        <div class="card">Expenses <br><b>৳ {{ expense }}</b></div>
+    </div>
+    <!-- Final Balance -->
+    <h1 class="text-xl text-center text-green-600 font-semibold mb-6">
+        Final Balance: ৳ {{ final_income }}
+    </h1>
+    <!-- Navigation Buttons -->
+    <div class="flex justify-center gap-4 mb-8">
+        <a href="{% url 'member_dashboard' %}" class="btn">Members</a>
+        <a href="{% url 'payment_dashboard' %}" class="btn">Payments</a>
+        <a href="{% url 'event_dashboard' %}" class="btn">Events</a>
+        <a href="{% url 'expense_dashboard' %}" class="btn">Expenses</a>
+    </div>
+    <!-- Hidden JSON for charts -->
+    <script id="chart-labels" type="application/json">{{ chart_labels_json|safe }}</script>
+    <script id="chart-data" type="application/json">{{ chart_data_json|safe }}</script>
+</div>
+<style>
+.card {
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    font-weight:500;
+    font-size:1.1rem;
+}
+.btn {
+    background:#2563eb;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    transition:0.2s;
+    font-weight:500;
+}
+.btn:hover {
+    background:#1d4ed8;
+}
+</style>
+<!-- Pie Chart -->
+<div class="bg-white p-6 rounded shadow mb-6" style="height:400px; width:100%;">
+    <canvas id="incomePieChart" class="w-full h-full"></canvas>
+</div>
+<!-- Bar Chart -->
+<div class="bg-white p-6 rounded shadow mb-6" style="height:300px; width:100%;">
+    <canvas id="incomeChart" class="w-full h-full"></canvas>   
+</div>
+<script>
+// Parse JSON data from template
+const labels = JSON.parse(document.getElementById('chart-labels').textContent);
+const data = JSON.parse(document.getElementById('chart-data').textContent);
+// Bar Chart
+const barCtx = document.getElementById('incomeChart').getContext('2d');
+new Chart(barCtx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Amount in ৳',
+            data: data,
+            backgroundColor: ['#2563eb','#10b981','#f59e0b'],
+            borderColor: ['#1d4ed8','#059669','#d97706'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,  // <--- this makes it fill the div
+        plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Club Income vs Expenses' }
+        },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+// Pie Chart
+const pieCtx = document.getElementById('incomePieChart').getContext('2d');
+new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: ['#2563eb','#10b981','#f59e0b'],
+            borderColor: ['#1d4ed8','#059669','#d97706'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,  // <--- fill div
+        plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: 'Income vs Expenses Proportion' }
+        }
+    }
+});
+</script>
+</body>
+<!-- Footer -->
+<footer class="bg-white-800 text-black py-4 mt-8">
+    <div class="max-w-6xl mx-auto text-center">
+        <p class="text-sm">
+            &copy; {{ current_year }} My Club Management. All rights reserved.
+        </p>
+        <p class="text-xs mt-1">
+            Designed with ❤️ using Django & TailwindCSS
+        </p>
+    </div>
+</footer>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-7xl mx-auto text-center mb-4">
+    <h2 class="text-2xl font-bold mb-4">Event Dashboard</h2>
+    <p class="mb-3 font-semibold">Total Event Income: ৳ {{ total }}</p>
+    <a href="{% url 'add_event' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 inline-block">+ Add Event</a>
+    <div class="bg-white shadow rounded p-4 max-w-5xl mx-auto">
+        <table class="table-auto w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border px-2 py-1">Name</th>
+                    <th class="border px-2 py-1">Date</th>
+                    <th class="border px-2 py-1">Income</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in events %}
+                <tr>
+                    <td class="border px-2 py-1 text-left">{{ e.name }}</td>
+                    <td class="border px-2 py-1 text-left">{{ e.event_date }}</td>
+                    <td class="border px-2 py-1 text-left">৳ {{ e.income }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td class="border px-2 py-1 text-center" colspan="3">No events yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-4">
+            <a href="{% url 'main_dashboard' %}" class="text-blue-600 hover:underline font-medium">
+                ← Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+<!-- Footer -->
+<footer class="bg-white-800 text-black py-4 mt-8">
+    <div class="max-w-6xl mx-auto text-center">
+        <p class="text-sm">
+            &copy; 2026 My Club Management. All rights reserved.</p>
+        <p class="text-xs mt-1">
+            Designed with ❤️ using Django & TailwindCSS</p>
+    </div>
+</footer>
+</html>
