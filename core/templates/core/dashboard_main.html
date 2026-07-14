@@ -7,13 +7,55 @@
 </head>
 <body class="bg-gray-100 p-6">
 <div class="max-w-6xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-6">CSE Club Management Dashboard</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="card">Members <br><b>{{ total_members }}</b></div>
-        <div class="card">Membership <br><b>৳ {{ membership_income }}</b></div>
-        <div class="card">Events <br><b>৳ {{ event_income }}</b></div>
-        <div class="card">Expenses <br><b>৳ {{ expense }}</b></div>
+<div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 text-white rounded-2xl p-8 mb-8 shadow-lg">
+
+    <h1 class="text-4xl font-bold text-center">
+        CSE Club Management System
+    </h1>
+
+    <p class="text-center text-lg mt-3">
+        Department of Computer Science & Engineering
+    </p>
+
+    <p class="text-center mt-2">
+        Developed by Fahim Reza
+    </p>
+
+</div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
+        <h3 class="text-gray-500 text-lg">Total Members</h3>
+        <p class="text-4xl font-bold text-blue-600 mt-3">
+            {{ total_members }}
+        </p>
     </div>
+
+
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
+        <h3 class="text-gray-500 text-lg">Membership Income</h3>
+        <p class="text-3xl font-bold text-green-600 mt-3">
+            ৳ {{ membership_income }}
+        </p>
+    </div>
+
+
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
+        <h3 class="text-gray-500 text-lg">Event Income</h3>
+        <p class="text-3xl font-bold text-purple-600 mt-3">
+            ৳ {{ event_income }}
+        </p>
+    </div>
+
+
+    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
+        <h3 class="text-gray-500 text-lg">Total Expense</h3>
+        <p class="text-3xl font-bold text-red-600 mt-3">
+            ৳ {{ expense }}
+        </p>
+    </div>
+
+</div>
     <!-- Final Balance -->
     <h1 class="text-xl text-center text-green-600 font-semibold mb-6">
         Final Balance: ৳ {{ final_income }}
