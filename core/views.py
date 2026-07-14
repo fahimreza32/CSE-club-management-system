@@ -3,12 +3,13 @@ from django.db.models import Sum
 from .models import Member, MembershipPayment, Event, Expenditure
 from .forms import MemberForm, MembershipPaymentForm, EventForm, ExpenditureForm
 import json
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.shortcuts import render
 from django.db.models import Sum
 import json
 from .models import Member, MembershipPayment, Event, Expenditure
-
+@login_required(login_url='login')
 def dashboard(request):
     # Counts and sums
     total_members = Member.objects.count()

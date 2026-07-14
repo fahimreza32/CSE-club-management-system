@@ -1,167 +1,377 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Main Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Club Management System</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-100 p-6">
-<div class="max-w-6xl mx-auto">
-<div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 text-white rounded-2xl p-8 mb-8 shadow-lg">
 
-    <h1 class="text-4xl font-bold text-center">
-        CSE Club Management System
-    </h1>
+<body class="bg-gray-100">
 
-    <p class="text-center text-lg mt-3">
-        Department of Computer Science & Engineering
-    </p>
+<div class="max-w-7xl mx-auto p-6">
 
-    <p class="text-center mt-2">
-        Developed by Fahim Reza
-    </p>
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 text-white rounded-2xl shadow-xl p-8 mb-8">
 
-</div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="flex justify-between items-center">
 
-    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
-        <h3 class="text-gray-500 text-lg">Total Members</h3>
-        <p class="text-4xl font-bold text-blue-600 mt-3">
-            {{ total_members }}
-        </p>
+            <div>
+
+                <h1 class="text-4xl font-bold">
+                    CSE Club Management System
+                </h1>
+
+                <p class="mt-2 text-lg">
+                    Department of Computer Science & Engineering
+                </p>
+
+                <p class="text-sm mt-1">
+                    Developed by <b>Fahim Reza</b>
+                </p>
+
+            </div>
+
+            <div class="text-right">
+
+                <p class="text-lg font-semibold mb-4">
+                    👤 {{ request.user.username }}
+                </p>
+
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        class="bg-red-500 hover:bg-red-600 px-5 py-2 rounded-lg transition duration-300">
+
+                        Logout
+
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
     </div>
 
+    <!-- Dashboard Cards -->
 
-    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
-        <h3 class="text-gray-500 text-lg">Membership Income</h3>
-        <p class="text-3xl font-bold text-green-600 mt-3">
-            ৳ {{ membership_income }}
-        </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:scale-105 duration-300">
+
+            <h3 class="text-gray-500 text-lg">
+                Total Members
+            </h3>
+
+            <p class="text-5xl font-bold text-blue-600 mt-4">
+                {{ total_members }}
+            </p>
+
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:scale-105 duration-300">
+
+            <h3 class="text-gray-500 text-lg">
+                Membership Income
+            </h3>
+
+            <p class="text-3xl font-bold text-green-600 mt-4">
+                ৳ {{ membership_income }}
+            </p>
+
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:scale-105 duration-300">
+
+            <h3 class="text-gray-500 text-lg">
+                Event Income
+            </h3>
+
+            <p class="text-3xl font-bold text-purple-600 mt-4">
+                ৳ {{ event_income }}
+            </p>
+
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 text-center hover:scale-105 duration-300">
+
+            <h3 class="text-gray-500 text-lg">
+                Total Expense
+            </h3>
+
+            <p class="text-3xl font-bold text-red-600 mt-4">
+                ৳ {{ expense }}
+            </p>
+
+        </div>
+
     </div>
 
-
-    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
-        <h3 class="text-gray-500 text-lg">Event Income</h3>
-        <p class="text-3xl font-bold text-purple-600 mt-3">
-            ৳ {{ event_income }}
-        </p>
-    </div>
-
-
-    <div class="bg-white p-6 rounded-2xl shadow-lg text-center hover:scale-105 transition">
-        <h3 class="text-gray-500 text-lg">Total Expense</h3>
-        <p class="text-3xl font-bold text-red-600 mt-3">
-            ৳ {{ expense }}
-        </p>
-    </div>
-
-</div>
     <!-- Final Balance -->
-    <h1 class="text-xl text-center text-green-600 font-semibold mb-6">
-        Final Balance: ৳ {{ final_income }}
-    </h1>
+
+    <div class="bg-green-100 border border-green-300 rounded-xl p-6 text-center mb-8">
+
+        <h2 class="text-2xl font-bold text-green-700">
+            Final Balance : ৳ {{ final_income }}
+        </h2>
+
+    </div>
+
     <!-- Navigation Buttons -->
-    <div class="flex justify-center gap-4 mb-8">
-        <a href="{% url 'member_dashboard' %}" class="btn">Members</a>
-        <a href="{% url 'payment_dashboard' %}" class="btn">Payments</a>
-        <a href="{% url 'event_dashboard' %}" class="btn">Events</a>
-        <a href="{% url 'expense_dashboard' %}" class="btn">Expenses</a>
+
+    <div class="flex flex-wrap justify-center gap-4 mb-8">
+
+        <a href="{% url 'member_dashboard' %}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow">
+
+            Members
+
+        </a>
+
+        <a href="{% url 'payment_dashboard' %}"
+           class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow">
+
+            Payments
+
+        </a>
+
+        <a href="{% url 'event_dashboard' %}"
+           class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow">
+
+            Events
+
+        </a>
+
+        <a href="{% url 'expense_dashboard' %}"
+           class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg shadow">
+
+            Expenses
+
+        </a>
+
     </div>
-    <!-- Hidden JSON for charts -->
-    <script id="chart-labels" type="application/json">{{ chart_labels_json|safe }}</script>
-    <script id="chart-data" type="application/json">{{ chart_data_json|safe }}</script>
+
+    <!-- Hidden JSON -->
+
+    <script id="chart-labels" type="application/json">
+        {{ chart_labels_json|safe }}
+    </script>
+
+    <script id="chart-data" type="application/json">
+        {{ chart_data_json|safe }}
+    </script>
+        <!-- Pie Chart -->
+    <div class="bg-white p-6 rounded-xl shadow-lg mb-8"
+         style="height:400px; width:100%;">
+
+        <canvas id="incomePieChart" class="w-full h-full"></canvas>
+
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="bg-white p-6 rounded-xl shadow-lg mb-8"
+         style="height:300px; width:100%;">
+
+        <canvas id="incomeChart" class="w-full h-full"></canvas>
+
+    </div>
+
 </div>
-<style>
-.card {
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-    font-weight:500;
-    font-size:1.1rem;
-}
-.btn {
-    background:#2563eb;
-    color:white;
-    padding:10px 18px;
-    border-radius:8px;
-    transition:0.2s;
-    font-weight:500;
-}
-.btn:hover {
-    background:#1d4ed8;
-}
-</style>
-<!-- Pie Chart -->
-<div class="bg-white p-6 rounded shadow mb-6" style="height:400px; width:100%;">
-    <canvas id="incomePieChart" class="w-full h-full"></canvas>
-</div>
-<!-- Bar Chart -->
-<div class="bg-white p-6 rounded shadow mb-6" style="height:300px; width:100%;">
-    <canvas id="incomeChart" class="w-full h-full"></canvas>   
-</div>
+
 <script>
-// Parse JSON data from template
-const labels = JSON.parse(document.getElementById('chart-labels').textContent);
-const data = JSON.parse(document.getElementById('chart-data').textContent);
-// Bar Chart
-const barCtx = document.getElementById('incomeChart').getContext('2d');
-new Chart(barCtx, {
-    type: 'bar',
+
+const labels = JSON.parse(
+    document.getElementById("chart-labels").textContent
+);
+
+const data = JSON.parse(
+    document.getElementById("chart-data").textContent
+);
+
+
+
+// ---------------- Bar Chart ----------------
+
+new Chart(document.getElementById("incomeChart"), {
+
+    type: "bar",
+
     data: {
+
         labels: labels,
-        datasets: [{
-            label: 'Amount in ৳',
-            data: data,
-            backgroundColor: ['#2563eb','#10b981','#f59e0b'],
-            borderColor: ['#1d4ed8','#059669','#d97706'],
-            borderWidth: 1
-        }]
+
+        datasets: [
+
+            {
+
+                label: "Amount (৳)",
+
+                data: data,
+
+                backgroundColor: [
+
+                    "#2563eb",
+
+                    "#10b981",
+
+                    "#ef4444"
+
+                ],
+
+                borderColor: [
+
+                    "#1d4ed8",
+
+                    "#059669",
+
+                    "#dc2626"
+
+                ],
+
+                borderWidth: 1
+
+            }
+
+        ]
+
     },
+
     options: {
+
         responsive: true,
-        maintainAspectRatio: false,  // <--- this makes it fill the div
+
+        maintainAspectRatio: false,
+
         plugins: {
-            legend: { display: false },
-            title: { display: true, text: 'Club Income vs Expenses' }
+
+            legend: {
+
+                display: false
+
+            },
+
+            title: {
+
+                display: true,
+
+                text: "Club Income vs Expenses"
+
+            }
+
         },
-        scales: { y: { beginAtZero: true } }
-    }
-});
-// Pie Chart
-const pieCtx = document.getElementById('incomePieChart').getContext('2d');
-new Chart(pieCtx, {
-    type: 'pie',
-    data: {
-        labels: labels,
-        datasets: [{
-            data: data,
-            backgroundColor: ['#2563eb','#10b981','#f59e0b'],
-            borderColor: ['#1d4ed8','#059669','#d97706'],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,  // <--- fill div
-        plugins: {
-            legend: { position: 'bottom' },
-            title: { display: true, text: 'Income vs Expenses Proportion' }
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
         }
+
     }
+
 });
+
+
+
+// ---------------- Pie Chart ----------------
+
+new Chart(document.getElementById("incomePieChart"), {
+
+    type: "pie",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [
+
+            {
+
+                data: data,
+
+                backgroundColor: [
+
+                    "#2563eb",
+
+                    "#10b981",
+
+                    "#ef4444"
+
+                ],
+
+                borderColor: [
+
+                    "#1d4ed8",
+
+                    "#059669",
+
+                    "#dc2626"
+
+                ],
+
+                borderWidth: 1
+
+            }
+
+        ]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+
+                position: "bottom"
+
+            },
+
+            title: {
+
+                display: true,
+
+                text: "Income Distribution"
+
+            }
+
+        }
+
+    }
+
+});
+
 </script>
-</body>
 <!-- Footer -->
-<footer class="bg-white-800 text-black py-4 mt-8">
-    <div class="max-w-6xl mx-auto text-center">
-        <p class="text-sm">
-            &copy; {{ current_year }} My Club Management. All rights reserved.
+
+<footer class="bg-white shadow-inner py-5 mt-8">
+
+    <div class="max-w-7xl mx-auto text-center">
+
+        <p class="text-sm font-medium text-gray-700">
+            © {{ current_year }} CSE Club Management System. All Rights Reserved.
         </p>
-        <p class="text-xs mt-1">
-            Designed with ❤️ using Django & TailwindCSS
+
+        <p class="text-xs text-gray-500 mt-2">
+            Developed by <span class="font-semibold text-blue-600">Fahim Reza</span>
+            using Django, Tailwind CSS & Chart.js
         </p>
+
     </div>
+
 </footer>
+
+</body>
+
 </html>
